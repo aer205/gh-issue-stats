@@ -219,7 +219,23 @@ def load_from_files(
 
             for issue_file in os.scandir(f"{directory}/{owner}/{name}/issues"):
                 fd = open(issue_file.path)
-                issues.append(json.load(fd))
+
+                obj: IssuesStats = json.load(fd)
+
+                issues.append({
+                    "number": obj["number"],
+                    "created_at": datetime.fromisoformat(obj["created_at"]),
+                    "closed_at": datetime.fromisoformat(obj["closed_at"]),
+                    "start_event": obj["start_event"],
+                    "started_at": datetime.fromisoformat(obj["created_at"]) if "created_at" in obj else None,
+                    "start_id": obj["start_id"],
+                    "finish_event": obj["finish_event"],
+                    "finished_at":  datetime.fromisoformat(obj["finished_at"]) if "finished_at" in obj else None,
+                    "finish_id": obj["finish_id"],
+                    "state_reason": obj["state_reason"],
+                    "is_pull": obj["is_pull"],
+                    "is_squash": obj["is_squash"],
+                })
 
         stats.append({
             "url": f"https://github.com/{owner}/{name}",
