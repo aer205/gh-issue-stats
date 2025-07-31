@@ -1,0 +1,14 @@
+{
+    "number": 2350,
+    "created_at": "2024-07-25T15:24:17Z",
+    "closed_at": "2024-07-27T10:27:44Z",
+    "start_event": "<commit>",
+    "started_at": "2024-07-25T15:18:49Z",
+    "start_id": null,
+    "finish_event": "merged",
+    "finished_at": "2024-07-27T10:27:44Z",
+    "finish_id": 13668058546,
+    "state_reason": null,
+    "is_pull": true,
+    "is_squash": false
+}

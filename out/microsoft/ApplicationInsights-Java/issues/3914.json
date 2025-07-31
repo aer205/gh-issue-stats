@@ -1,0 +1,14 @@
+{
+    "number": 3914,
+    "created_at": "2024-10-18T05:03:12Z",
+    "closed_at": "2024-10-18T17:17:44Z",
+    "start_event": null,
+    "started_at": null,
+    "start_id": null,
+    "finish_event": "merged",
+    "finished_at": "2024-10-18T17:17:44Z",
+    "finish_id": 14722843753,
+    "state_reason": null,
+    "is_pull": true,
+    "is_squash": false
+}

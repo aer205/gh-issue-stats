@@ -1,0 +1,14 @@
+{
+    "number": 1003,
+    "created_at": "2024-12-20T20:05:47Z",
+    "closed_at": "2024-12-20T20:59:03Z",
+    "start_event": null,
+    "started_at": null,
+    "start_id": null,
+    "finish_event": "deployed",
+    "finished_at": "2024-12-20T21:00:01Z",
+    "finish_id": 15736516497,
+    "state_reason": null,
+    "is_pull": true,
+    "is_squash": false
+}

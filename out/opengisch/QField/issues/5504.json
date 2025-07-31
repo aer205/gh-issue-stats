@@ -1,0 +1,14 @@
+{
+    "number": 5504,
+    "created_at": "2024-08-02T07:55:06Z",
+    "closed_at": "2024-08-02T17:03:15Z",
+    "start_event": null,
+    "started_at": null,
+    "start_id": null,
+    "finish_event": "converted_to_discussion",
+    "finished_at": "2024-08-02T17:03:15Z",
+    "finish_id": 13743224774,
+    "state_reason": "completed",
+    "is_pull": false,
+    "is_squash": false
+}

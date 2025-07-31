@@ -1,0 +1,14 @@
+{
+    "number": 1130,
+    "created_at": "2025-02-05T02:18:37Z",
+    "closed_at": "2025-02-05T05:13:03Z",
+    "start_event": null,
+    "started_at": null,
+    "start_id": null,
+    "finish_event": "closed",
+    "finished_at": "2025-02-05T05:13:04Z",
+    "finish_id": 16188390966,
+    "state_reason": null,
+    "is_pull": true,
+    "is_squash": false
+}

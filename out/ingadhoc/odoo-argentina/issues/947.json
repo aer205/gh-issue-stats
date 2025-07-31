@@ -1,0 +1,14 @@
+{
+    "number": 947,
+    "created_at": "2024-11-08T19:48:30Z",
+    "closed_at": "2024-11-22T17:36:28Z",
+    "start_event": null,
+    "started_at": null,
+    "start_id": null,
+    "finish_event": "deployed",
+    "finished_at": "2024-11-22T17:36:26Z",
+    "finish_id": 15400402462,
+    "state_reason": null,
+    "is_pull": true,
+    "is_squash": false
+}

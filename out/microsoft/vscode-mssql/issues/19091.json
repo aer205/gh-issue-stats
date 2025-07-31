@@ -1,0 +1,14 @@
+{
+    "number": 19091,
+    "created_at": "2025-04-07T18:38:21Z",
+    "closed_at": "2025-04-23T22:39:57Z",
+    "start_event": "assigned",
+    "started_at": "2025-04-12T18:42:39Z",
+    "start_id": 17234914222,
+    "finish_event": "closed",
+    "finished_at": "2025-04-23T22:39:58Z",
+    "finish_id": 17378016687,
+    "state_reason": "completed",
+    "is_pull": false,
+    "is_squash": false
+}

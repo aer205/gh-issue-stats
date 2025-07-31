@@ -1,0 +1,14 @@
+{
+    "number": 2996,
+    "created_at": "2024-07-24T16:03:58Z",
+    "closed_at": "2024-07-29T23:04:28Z",
+    "start_event": null,
+    "started_at": null,
+    "start_id": null,
+    "finish_event": "marked_as_duplicate",
+    "finished_at": "2024-07-29T23:04:27Z",
+    "finish_id": 13686609897,
+    "state_reason": null,
+    "is_pull": true,
+    "is_squash": false
+}
