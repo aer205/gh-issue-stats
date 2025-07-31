@@ -225,6 +225,7 @@ def load_from_files(
             "url": f"https://github.com/{owner}/{name}",
             "issues": issues
         })
+    return data
 
 def repository_stats_to_df(
     stats: RepositoryStats
