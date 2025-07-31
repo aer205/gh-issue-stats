@@ -226,6 +226,11 @@ def load_from_files(
             "issues": issues
         })
 
+def repository_stats_to_df(
+    stats: RepositoryStats
+) -> pandas.DataFrame:
+    return pandas.DataFrame.from_records(stats["issues"])
+
 def commits_in_last_n_days(
     url: str,
     api_token: str,
