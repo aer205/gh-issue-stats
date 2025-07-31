@@ -62,7 +62,7 @@ def issue_stats_from_api(
     finished_at = None
     finish_id = None
     state_reason = issue.state_reason
-    is_pull = issue.pull_request() is not None
+    is_pull = issue.pull_request is not None
     is_squash = False
 
     try:
@@ -166,16 +166,16 @@ def repository_stats_from_api(
             print(f"Extracting statistics from {url}...")
 
         repo = api.get_repo(f"{owner}/{name}")
-        issuestats = [
-            issue_stats_from_api(repo, issue)
-            for issue
-            in (tqdm.tqdm(repo.get_issues(since=created_since), colour="green") if show_progress else repo.get_issues(since=created_since))
-            if (
-                (issue.state == "closed" and issue.closed_at) and # Must be closed
-                issue.created_at >= created_since and # Must be created within the last `last_created` days
-                issue.closed_at >= closed_since # Must be closed within the last `last_created` days
-            )
-        ]
+        issuestats = []
+
+        for issue in repo.get_issues(since=created_since, state="closed"):
+            if issue.state != "closed":
+                continue
+                
+            if issue.created_at < created_since or issue.closed_at < closed_since:
+                continue
+
+            issuestats.append(issue_stats_from_api(repo, issue))
 
         if show_progress:
             print(f"Done with {url}!")
