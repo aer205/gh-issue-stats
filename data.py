@@ -1,7 +1,9 @@
 from datetime import datetime, timezone, timedelta
 import json
+import sys
 from typing import Iterable, Optional, Sequence, TypedDict
 
+import argparse
 import os
 import urllib.parse
 import pandas
@@ -97,7 +99,7 @@ def issue_stats_from_api(
             start_id = start_of_work.id
 
         # Extract end-of-work.
-        end_of_work = next((event for event in reversed(timeline) if event.event in START_OF_WORK_EVENT_TYPES - {"closed"}), None)
+        end_of_work = next((event for event in reversed(timeline) if event.event in END_OF_WORK_EVENT_TYPES - {"closed"}), None)
 
         if end_of_work is None:
             end_of_work = next((event for event in reversed(timeline) if event.event in {"closed"}), None)
@@ -122,8 +124,7 @@ def issue_stats_from_api(
             "is_squash": is_squash,
         }
     except Exception as e:
-        return e
-
+        return Exception(f"error during data extraction of issue #{number} from repository {repo.url}: {e}")
 
 RepositoryStats = TypedDict(
     "RepositoryStats",
@@ -151,12 +152,12 @@ def repository_stats_from_api(
     `last_created` and `last_closed` are used to specify the maximum time passed since the creation and closure of the issue respectively.
     If `show_progress == True`, a loading bar will be shown. 
     """
-    if last_created > last_closed:
-        raise ValueError("`last_created` must be less than `last_closed`")
+    if last_created <= last_closed:
+        raise ValueError("`last_created` must be greater than or equal to `last_closed`")
 
     # Get the Repository
     owner, name = urllib.parse.urlparse(url).path.strip("/").split("/")[-2:]
-    now = datetime.now(timezone.utc())
+    now = datetime.now(timezone.utc)
     created_since = now - last_created
     closed_since = now - last_closed
 
@@ -166,9 +167,9 @@ def repository_stats_from_api(
 
         repo = api.get_repo(f"{owner}/{name}")
         issuestats = [
-            issue_stats_from_api(...)
+            issue_stats_from_api(repo, issue)
             for issue
-            in (tqdm.tqdm(repo.get_issues(since=created_since)) if show_progress else repo.get_issues(since=created_since))
+            in (tqdm.tqdm(repo.get_issues(since=created_since), colour="green") if show_progress else repo.get_issues(since=created_since))
             if (
                 (issue.state == "closed" and issue.closed_at) and # Must be closed
                 issue.created_at >= created_since and # Must be created within the last `last_created` days
@@ -184,10 +185,10 @@ def repository_stats_from_api(
             "issues": issuestats
         }
     except Exception as e:
-        return e
+        return Exception(f"error during data extraction for {url}: {e}")
 
 def save_to_files(
-    stats: Sequence[RepositoryStats],
+    stats: Iterable[RepositoryStats],
     output: str = DEFAULT_OUTPUT
 ) -> None:
     for repo in stats:
@@ -280,7 +281,7 @@ def active_sample(
     """
     df = pandas.DataFrame({
         "url": list(urls),
-        "last90": [commits_in_last_n_days(url, api_token) for url in (tqdm.tqdm(urls) if show_progress else urls)]
+        "last90": [commits_in_last_n_days(url, api_token) for url in (tqdm.tqdm(urls, colour="green") if show_progress else urls)]
     })
 
     df = df[df.last90 != 0]
@@ -291,4 +292,32 @@ def active_sample(
 
 
 if __name__ == "__main__":
+    options = argparse.ArgumentParser()
+    options.add_argument(
+        "-i", "--input", default=DEFAULT_INPUT,
+        help=f"The path of the input file (default: {DEFAULT_INPUT})\n"
+        "Must contain a single attribute named \"values\", which stores a list of GitHub Repository URLs"
+    )
+    options.add_argument(
+        "-o", "--output", default=DEFAULT_OUTPUT,
+        help=f"The path of the output directory (default: {DEFAULT_OUTPUT})"
+        "The structure of the output data is described in the included `README.md`"
+    )
+    options.add_argument(
+        "-t", "--token", required=True,
+        help="The GitHub Personal Access Token which should be used to collect the data"
+    )
+
+    args = options.parse_args()
+
+    input = json.load(open(args.input))["values"]
+    api = github.Github(auth=github.Auth.Token(args.token))
+
+    stats = [
+        repository_stats_from_api(api, url, show_progress=False)
+        for url
+        in tqdm.tqdm(input)
+    ]
+    
+    save_to_files(stats, args.output)
     exit(0)
