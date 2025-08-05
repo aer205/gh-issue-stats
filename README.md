@@ -1,10 +1,10 @@
 # Towards Analyzing Developer Efficiency in Enterprise-Driven Open Source Projects through Commit and Issue Tracking Data
 
-This repository specifies and provides methods for extracting metrics related to the approximation of the starting and ending of work on open issues, until they are closed. The data are intended to be used for computing issue cycle times, issue durations and for comparison against other metrics. This can then be used create benchmarks based on said metrics.
+This repository specifies and provides methods for extracting metrics related to the approximation of the starting and ending of work on open issues, until they are closed. The data are intended to be used for computing issue cycle times, issue durations and for comparison against other metrics. This can then be used create benchmarks based on said metrics, like developer efficiency (how much of the issue is spent on working vs. number of people wworking?), issue durations (how long shoud issues take to complete?) etc. 
 
 Usage of the data extraction script is described in this `README.md` file. For further details and examples, refer to the `thesis.pdf` paper.
 
-The `out` directory is an example of the result of running the `data.py` script, containing data for 15640 Issues across 40 GitHub Repositories.
+The `out` directory is an example of the result of running the `data.py` script with sample `in.json` on 30 Jul 2025, containing data for 15640 Issues across 40 GitHub Repositories.
 
 ## Sampling
 Creating a sample of active GitHub Repositories can be done using `data.active_sample`, using commits in the last `n` (default: 90) days as the activity metric:
