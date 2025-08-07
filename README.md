@@ -75,5 +75,17 @@ Reading the output of `data.py` is as simple as calling the `data.load_from_file
 ## As `pandas.DataFrame`
 The `RepositoryStats` (i.e. the resultant object from extracting or reading the data) object in Python can be converted to a `pandas.DataFrame` using the `data.repository_stats_to_df` function. This allows for easy interoperability with libraries like `matplotlib` to create visualizations and `numpy` for more complex mathematical operations.
 
+## Data as CSV
+
+If a CSV representation is preferred, the following can be used to create it:
+```python
+import data
+
+d = data.load_from_files(<output directory path>)
+data.repository_stats_to_df(d).to_csv(<CSV output path>, index=False)
+```
+
+`out.csv` is the result of doing this with the `out` directory. The resulting CSV file contains Issues every line with the same attributes as the JSON format, but with an added `url` attribute for the GitHub Repository URL. Reading this CSV requires no special functionality, with `pandas.read_csv` being enough.  
+
 ## Relation to thesis work
 The sample used in the research is contained in `in.json`, and the `out` directory contains the statistics used in the thesis (`thesis.pdf`).
